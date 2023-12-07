@@ -46,7 +46,7 @@ for (x, y, w, h) in faces:
     hsv_image = cv2.cvtColor(face_roi, cv2.COLOR_BGR2HSV)
     hsv_image = hsv_image.astype(float)   # Convert to floating-point
 
-    hsv_image[:, :, 1] *= 1.
+    hsv_image[:, :, 1] *= 1.05
 
     hsv_image = hsv_image.astype(np.uint8) # Convert back to uint8
     hsv_image = cv2.cvtColor(hsv_image, cv2.COLOR_HSV2BGR)
@@ -57,7 +57,7 @@ for (x, y, w, h) in faces:
     # 11. Финальная фильтрация
     result_image = np.zeros_like(sharpened_image)
     for i in range(3):
-        result_image[:, :, i] = normalized_image * sharpened_image[:, :, i] + (1 - normalized_image) * sharpened_image[:, :, i]
+        result_image[:, :, i] = normalized_image * sharpened_image[:, :, i] + (1 - normalized_image) * smoothed_image[:, :, i]
 
     cv2.imshow("Original Image", image)
     cv2.imshow("Detected Face", face_roi)
